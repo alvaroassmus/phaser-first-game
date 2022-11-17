@@ -36,6 +36,8 @@
     var platforms;
     var score = 0;
     var scoreText;
+    var instructions;
+    var showInstructionsValue = false;
 
     function preload() {
         this.load.image('sky', 'assets/sky.png');
@@ -43,6 +45,7 @@
         this.load.image('potion', 'assets/potion.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.image('rip', 'assets/rip.png');
+        this.load.image('help', 'assets/help.png');
         this.load.spritesheet('dr_brown',
             'assets/dr_brown.png',
             {frameWidth: 32, frameHeight: 48}
@@ -93,6 +96,9 @@
         this.physics.add.collider(bombs, platforms);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         scoreText = this.add.text(16, 16, 'score: 0', {fontSize: '32px', fill: '#FFF'});
+        instructions = this.add.text(50, 570, '', {fontSize: '20px', fill: '#FFF'});
+        let helpBtn = this.add.image(770, 570, 'help').setInteractive();
+        helpBtn.on('pointerup', toggleInstructions, this);
     }
 
     function update() {
@@ -137,6 +143,15 @@
         this.add.image(player.x, player.y, 'rip');
         player.disableBody(true, true);
         gameOver = true;
+    }
+
+    function toggleInstructions() {
+        if (!showInstructionsValue) {
+            instructions.setText('Use arrows to move, collect all potions, have fun.');
+        } else {
+            instructions.setText('');
+        }
+        showInstructionsValue = !showInstructionsValue;
     }
 
 </script>
